@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dFFA Calculator - Test Suite</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        h1 {
+            color: #ff6b35;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .test-controls {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, #C41E3A 0%, #FF6B35 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.5);
+        }
+
+        #output {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 2px solid #4a4a4a;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .passed {
+            color: #10b981;
+        }
+
+        .failed {
+            color: #ef4444;
+        }
+
+        .summary {
+            background: #0a0a0a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border: 2px solid #ff6b35;
+        }
+
+        .critical {
+            background: #ffa50033;
+            padding: 1rem;
+            border-left: 4px solid #ffa500;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 dFFA Calculator Test Suite</h1>
+    
+    <div class="critical">
+        <strong>⚠️ KRITISCHER TEST:</strong> 2x Gold + 1x Bronze = ?<br>
+        <strong>Erwartetes Ergebnis:</strong> Bronze-Abzeichen ✓<br>
+        <strong>Regel:</strong> "Für Silber und Gold müssen in ALLEN drei Disziplingruppen die Leistungen mindestens in der jeweiligen Stufe erbracht werden."
+    </div>
+
+    <div class="test-controls">
+        <button onclick="runTests()">▶️ Tests starten</button>
+        <button onclick="clearOutput()">🗑️ Löschen</button>
+    </div>
+
+    <div id="output">Klicke auf "Tests starten" um die Test-Suite auszuführen...</div>
+
+    <!-- Scripts -->
+    <script src="data/dffa-data.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/tests.js"></script>
+
+    <script>
+        let originalConsoleLog = console.log;
+        let originalConsoleError = console.error;
+        let output = '';
+
+        function runTests() {
+            output = '';
+            document.getElementById('output').innerHTML = 'Running tests...\n\n';
+
+            // Redirect console to output
+            console.log = function(...args) {
+                const msg = args.join(' ');
+                output += msg + '\n';
+                updateOutput();
+                originalConsoleLog.apply(console, args);
+            };
+
+            console.error = function(...args) {
+                const msg = args.join(' ');
+                output += msg + '\n';
+                updateOutput();
+                originalConsoleError.apply(console, args);
+            };
+
+            // Run tests
+            try {
+                const calculator = new dFFACalculator(dFFAData);
+                const tests = new dFFATests(calculator);
+                const allPassed = tests.runAll();
+
+                if (allPassed) {
+                    output += '\n\n✅ ALLE TESTS BESTANDEN! Die Anwendung ist bereit für den Produktivbetrieb.\n';
+                } else {
+                    output += '\n\n❌ EINIGE TESTS SIND FEHLGESCHLAGEN! Bitte Fehler beheben bevor die Anwendung verwendet wird.\n';
+                }
+            } catch (error) {
+                output += '\n\n❌ KRITISCHER FEHLER BEIM AUSFÜHREN DER TESTS:\n' + error.message + '\n';
+                console.error(error);
+            }
+
+            // Restore console
+            console.log = originalConsoleLog;
+            console.error = originalConsoleError;
+
+            updateOutput();
+        }
+
+        function updateOutput() {
+            let html = output;
+            
+            // Syntax highlighting
+            html = html.replace(/✅ PASSED:/g, '<span class="passed">✅ PASSED:</span>');
+            html = html.replace(/❌ FAILED:/g, '<span class="failed">❌ FAILED:</span>');
+            html = html.replace(/Success Rate: (\d+\.?\d*)%/g, (match, p1) => {
+                const rate = parseFloat(p1);
+                const color = rate === 100 ? '#10b981' : rate >= 80 ? '#ffa500' : '#ef4444';
+                return `<span style="color: ${color}; font-weight: bold;">Success Rate: ${p1}%</span>`;
+            });
+            
+            document.getElementById('output').innerHTML = html;
+        }
+
+        function clearOutput() {
+            output = '';
+            document.getElementById('output').innerHTML = 'Klicke auf "Tests starten" um die Test-Suite auszuführen...';
+        }
+
+        // Automatisch beim Laden ausführen
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>

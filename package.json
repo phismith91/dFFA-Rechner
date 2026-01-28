@@ -1,0 +1,13 @@
+{
+  "name": "dffa-rechner",
+  "version": "0.1.0",
+  "description": "Calculator for Deutsches Feuerwehr-Fitnessabzeichen",
+  "main": "index.html",
+  "scripts": {
+    "test": "node js/run-tests.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT"
+}

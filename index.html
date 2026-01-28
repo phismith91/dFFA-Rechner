@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Offizieller Rechner für das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) - Anforderungen, Einzelbewertung und Gruppenabnahme">
+    <meta name="keywords" content="dFFA, Feuerwehr, Fitness, Fitnessabzeichen, DFS, Sportabzeichen">
+    <title>dFFA Rechner - Deutsches Feuerwehr-Fitnessabzeichen</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>dFFA Rechner</h1>
+            <p class="subtitle">Deutsches Feuerwehr-Fitnessabzeichen</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="switchView('requirements')">
+                📋 Anforderungen
+            </button>
+            <button class="nav-tab" onclick="switchView('individual')">
+                🏅 Einzelrechner
+            </button>
+            <button class="nav-tab" onclick="switchView('group')">
+                👥 Gruppenabnahme
+            </button>
+        </nav>
+
+        <!-- View 1: Anforderungen -->
+        <div id="requirementsView" class="view active">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📋</span>
+                    <h2 class="card-title">Leistungsanforderungen</h2>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reqBirthYear">Geburtsjahr</label>
+                        <input type="number" id="reqBirthYear" min="1950" max="2020" 
+                               placeholder="z.B. 1990" value="1990">
+                    </div>
+                    <div class="form-group">
+                        <label for="reqTestYear">Jahr der Abnahme</label>
+                        <input type="number" id="reqTestYear" min="2024" max="2030" 
+                               placeholder="z.B. 2026">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="filterDisciplines" onchange="toggleDisciplineFilter()">
+                        Nur ausgewählte Disziplinen anzeigen
+                    </label>
+                </div>
+
+                <div id="disciplineFilters" style="display: none;">
+                    <div class="form-group">
+                        <label>Ausdauer-Disziplinen</label>
+                        <div id="ausdauerFilters"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Kraft-Disziplinen</label>
+                        <div id="kraftFilters"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Koordinations-Disziplinen</label>
+                        <div id="koordinationFilters"></div>
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateRequirements()">
+                    Anforderungen anzeigen
+                </button>
+
+                <div id="requirementsResults" class="results" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- View 2: Einzelrechner -->
+        <div id="individualView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🏅</span>
+                    <h2 class="card-title">Einzelabnahme</h2>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="indivBirthYear">Geburtsjahr</label>
+                        <input type="number" id="indivBirthYear" min="1950" max="2020" 
+                               placeholder="z.B. 1990">
+                    </div>
+                    <div class="form-group">
+                        <label for="indivTestYear">Jahr der Abnahme</label>
+                        <input type="number" id="indivTestYear" min="2024" max="2030" 
+                               placeholder="z.B. 2026">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="indivAusdauer">Ausdauer-Disziplin</label>
+                    <div id="indivAusdauerSelect"></div>
+                </div>
+                <div id="indivAusdauerInput" class="performance-input-container"></div>
+
+                <div class="form-group">
+                    <label for="indivKraft">Kraft-Disziplin</label>
+                    <div id="indivKraftSelect"></div>
+                </div>
+                <div id="indivKraftInput" class="performance-input-container"></div>
+
+                <div class="form-group">
+                    <label for="indivKoordination">Koordinations-Disziplin</label>
+                    <div id="indivKoordinationSelect"></div>
+                </div>
+                <div id="indivKoordinationInput" class="performance-input-container"></div>
+
+                <button class="calculate-btn" onclick="calculateIndividual()">
+                    Abzeichen berechnen
+                </button>
+
+                <div id="individualResults" class="results" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- View 3: Gruppenabnahme -->
+        <div id="groupView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">👥</span>
+                    <h2 class="card-title">Gruppenabnahme</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="groupTestYear">Jahr der Abnahme</label>
+                    <input type="number" id="groupTestYear" min="2024" max="2030" 
+                           placeholder="z.B. 2026">
+                </div>
+
+                <div id="groupPersonFormContainer"></div>
+
+                <div style="margin: 2rem 0; text-align: center;">
+                    <button class="btn btn-primary" onclick="showAddPersonForm()">
+                        ➕ Person hinzufügen
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportGroupResults()" 
+                            id="exportBtn" style="display: none;">
+                        📥 Als CSV exportieren
+                    </button>
+                    <button class="btn btn-danger" onclick="clearGroup()" 
+                            id="clearBtn" style="display: none;">
+                        🗑️ Alle löschen
+                    </button>
+                </div>
+
+                <div id="groupResults"></div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="card">
+            <h3 class="card-title">Über das dFFA</h3>
+            <div class="modal-body">
+                <p>Das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) ist das sportliche Ehrenzeichen der Feuerwehr als Auszeichnung für gute und vielseitige körperliche Leistungsfähigkeit.</p>
+                <br>
+                <strong>Wichtige Regelungen:</strong><br>
+                • Aus jeder der drei Disziplingruppen (Ausdauer, Kraft, Koordination) muss eine Übung erfüllt werden<br>
+                • Das Abzeichen wird in den Stufen Bronze, Silber und Gold verliehen<br>
+                • Für Silber und Gold müssen alle drei Disziplinen mindestens in der jeweiligen Stufe erreicht werden<br>
+                • Für die Altersklasse ist das Geburtsjahr im Jahr der Abnahme entscheidend<br>
+                • Die Prüfung muss innerhalb eines Kalenderjahres (1.1. bis 31.12.) abgelegt werden<br>
+                <br>
+                <strong>Weitere Informationen:</strong><br>
+                • <a href="https://dfs-ev.de/deutsches-feuerwehr-fitnessabzeichen" target="_blank" rel="noopener">Offizielle Broschüre zum dFFA</a><br>
+                • <a href="https://dfs-ev.de/deutsches-feuerwehr-fitnessabzeichen" target="_blank" rel="noopener">Leistungstabellen und Anforderungen</a><br>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Datengrundlage: <a href="https://dfs-ev.de" target="_blank" rel="noopener">Deutsche Feuerwehr-Sportföderation e.V.</a></p>
+            <p style="margin-top: 0.5rem;">Diese Website ist ein inoffizielles Hilfsmittel zur Berechnung der dFFA-Leistungen</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">Version 1.0 | Stand: Januar 2026</p>
+        </footer>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle" class="modal-title"></h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent" class="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/dffa-data.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/ui.js"></script>
+    
+    <script>
+        // Globale Instanzen
+        const calculator = new dFFACalculator(dFFAData);
+        const state = new dFFAState();
+        const ui = new dFFAUI(calculator);
+        
+        // Aktuelles Jahr setzen
+        const currentYear = new Date().getFullYear();
+        document.getElementById('reqTestYear').value = currentYear;
+        document.getElementById('indivTestYear').value = currentYear;
+        document.getElementById('groupTestYear').value = currentYear;
+        state.setCurrentYear(currentYear);
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeRequirementsView();
+            initializeIndividualView();
+            initializeGroupView();
+            
+            // State laden wenn vorhanden
+            state.loadFromLocalStorage();
+        });
+
+        // View Switching
+        function switchView(viewName) {
+            const views = document.querySelectorAll('.view');
+            const tabs = document.querySelectorAll('.nav-tab');
+            
+            views.forEach(view => view.classList.remove('active'));
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            document.getElementById(`${viewName}View`).classList.add('active');
+            event.target.classList.add('active');
+            
+            state.setView(viewName);
+        }
+
+        // Modal Functions
+        function showModal(title, content) {
+            ui.showModal(title, content);
+        }
+
+        function closeModal() {
+            ui.closeModal();
+        }
+
+        // Click outside modal to close
+        document.getElementById('infoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'infoModal') {
+                closeModal();
+            }
+        });
+
+        // === FEATURE 1: Anforderungen ===
+        
+        function initializeRequirementsView() {
+            // Disziplin-Filter erstellen
+            const categories = ['ausdauer', 'kraft', 'koordination'];
+            categories.forEach(category => {
+                const container = document.getElementById(`${category}Filters`);
+                const disciplines = calculator.getDisciplines(category);
+                
+                disciplines.forEach(disc => {
+                    const checkbox = document.createElement('label');
+                    checkbox.style.display = 'block';
+                    checkbox.style.marginBottom = '0.5rem';
+                    checkbox.innerHTML = `
+                        <input type="checkbox" value="${disc.key}" 
+                               onchange="updateDisciplineFilter('${category}', '${disc.key}', this.checked)">
+                        ${disc.name}
+                    `;
+                    container.appendChild(checkbox);
+                });
+            });
+        }
+
+        function toggleDisciplineFilter() {
+            const filterDiv = document.getElementById('disciplineFilters');
+            const checkbox = document.getElementById('filterDisciplines');
+            filterDiv.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function updateDisciplineFilter(category, discipline, checked) {
+            state.toggleDiscipline(category, discipline, checked);
+        }
+
+        function calculateRequirements() {
+            const birthYear = parseInt(document.getElementById('reqBirthYear').value);
+            const testYear = parseInt(document.getElementById('reqTestYear').value);
+            
+            if (!birthYear || !testYear) {
+                alert('Bitte Geburtsjahr und Jahr der Abnahme eingeben');
+                return;
+            }
+
+            const ageGroup = calculator.getAgeGroup(birthYear, testYear);
+            if (!ageGroup) {
+                alert('Ungültiges Alter. Das dFFA kann ab 18 Jahren abgelegt werden.');
+                return;
+            }
+
+            const age = calculator.getAge(birthYear, testYear);
+            
+            // Nur ausgewählte Disziplinen wenn Filter aktiv
+            let selectedDisciplines = null;
+            if (document.getElementById('filterDisciplines').checked) {
+                selectedDisciplines = [];
+                ['ausdauer', 'kraft', 'koordination'].forEach(cat => {
+                    selectedDisciplines.push(...state.selectedDisciplines[cat]);
+                });
+                
+                if (selectedDisciplines.length === 0) {
+                    alert('Bitte mindestens eine Disziplin auswählen');
+                    return;
+                }
+            }
+
+            const html = `
+                <h3 class="result-header">
+                    Altersklasse: ${ageGroup} (${age} Jahre)
+                </h3>
+                ${ui.renderRequirementsTable(ageGroup, selectedDisciplines)}
+            `;
+
+            const resultsDiv = document.getElementById('requirementsResults');
+            resultsDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+        }
+
+        // === FEATURE 2: Einzelrechner ===
+        
+        function initializeIndividualView() {
+            document.getElementById('indivAusdauerSelect').innerHTML = 
+                ui.renderDisciplineSelect('ausdauer', '', 'indivAusdauer');
+            document.getElementById('indivKraftSelect').innerHTML = 
+                ui.renderDisciplineSelect('kraft', '', 'indivKraft');
+            document.getElementById('indivKoordinationSelect').innerHTML = 
+                ui.renderDisciplineSelect('koordination', '', 'indivKoordination');
+        }
+
+        function handleDisciplineChange(category, selectId) {
+            const select = document.getElementById(selectId);
+            const discipline = select.value;
+            const inputContainer = document.getElementById(`${selectId}Input`);
+            
+            if (discipline) {
+                inputContainer.innerHTML = ui.renderPerformanceInput(category, discipline, selectId);
+            } else {
+                inputContainer.innerHTML = '';
+            }
+        }
+
+        function calculateIndividual() {
+            const birthYear = parseInt(document.getElementById('indivBirthYear').value);
+            const testYear = parseInt(document.getElementById('indivTestYear').value);
+            
+            if (!birthYear || !testYear) {
+                alert('Bitte Geburtsjahr und Jahr der Abnahme eingeben');
+                return;
+            }
+
+            const performances = {
+                ausdauer: getPerformanceValue('indivAusdauer', 'ausdauer'),
+                kraft: getPerformanceValue('indivKraft', 'kraft'),
+                koordination: getPerformanceValue('indivKoordination', 'koordination')
+            };
+
+            // Validierung
+            if (!performances.ausdauer.discipline || !performances.kraft.discipline || 
+                !performances.koordination.discipline) {
+                alert('Bitte alle drei Disziplinen auswählen');
+                return;
+            }
+
+            if (performances.ausdauer.value === null || performances.kraft.value === null || 
+                performances.koordination.value === null) {
+                alert('Bitte alle Leistungen eingeben');
+                return;
+            }
+
+            const personData = { birthYear, testYear, performances };
+            const result = calculator.evaluatePerson(personData);
+            
+            const resultsDiv = document.getElementById('individualResults');
+            resultsDiv.innerHTML = ui.renderIndividualResult(result);
+            resultsDiv.style.display = 'block';
+        }
+
+        function getPerformanceValue(idPrefix, category) {
+            const select = document.getElementById(idPrefix);
+            const discipline = select.value;
+            
+            if (!discipline) {
+                return { discipline: null, value: null };
+            }
+
+            const disciplineData = calculator.data.leistungstabellen[category][discipline];
+            const einheit = disciplineData.einheit;
+            
+            let value = null;
+            
+            if (einheit === 'zeit') {
+                const minutesInput = document.getElementById(`${idPrefix}Minutes`)?.value;
+                const secondsInput = document.getElementById(`${idPrefix}Seconds`)?.value;
+
+                // Prüfen ob mindestens ein Feld ausgefüllt ist
+                if (!minutesInput && !secondsInput) {
+                    value = null;
+                } else {
+                    const minutes = parseInt(minutesInput) || 0;
+                    const seconds = parseInt(secondsInput) || 0;
+                    value = calculator.validateTime(minutes, seconds);
+                }
+            } else {
+                value = parseFloat(document.getElementById(`${idPrefix}Value`)?.value);
+            }
+            
+            return { discipline, value };
+        }
+
+        // === FEATURE 3: Gruppenabnahme ===
+        
+        let currentEditPersonId = null;
+        
+        function initializeGroupView() {
+            updateGroupView();
+        }
+
+        function showAddPersonForm() {
+            currentEditPersonId = null;
+            const container = document.getElementById('groupPersonFormContainer');
+            container.innerHTML = ui.renderGroupPersonForm();
+            
+            // Event Listener für Disziplin-Auswahl
+            setupGroupFormListeners();
+        }
+
+        function setupGroupFormListeners() {
+            ['Ausdauer', 'Kraft', 'Koordination'].forEach(cat => {
+                const catLower = cat.toLowerCase();
+                const select = document.getElementById(`group${cat}`);
+                if (select) {
+                    select.addEventListener('change', () => {
+                        handleGroupDisciplineChange(catLower, `group${cat}`);
+                    });
+                }
+            });
+        }
+
+        function handleGroupDisciplineChange(category, selectId) {
+            const select = document.getElementById(selectId);
+            const discipline = select.value;
+            const inputContainer = document.getElementById(`${selectId}Input`);
+            
+            if (discipline) {
+                inputContainer.innerHTML = ui.renderPerformanceInput(category, discipline, selectId);
+            } else {
+                inputContainer.innerHTML = '';
+            }
+        }
+
+        function saveGroupPerson(personId) {
+            const name = document.getElementById('groupPersonName').value.trim();
+            const birthYear = parseInt(document.getElementById('groupPersonBirthYear').value);
+            const testYear = parseInt(document.getElementById('groupTestYear').value);
+            
+            if (!name || !birthYear) {
+                alert('Bitte Name und Geburtsjahr eingeben');
+                return;
+            }
+
+            const performances = {
+                ausdauer: getPerformanceValue('groupAusdauer', 'ausdauer'),
+                kraft: getPerformanceValue('groupKraft', 'kraft'),
+                koordination: getPerformanceValue('groupKoordination', 'koordination')
+            };
+
+            if (personId && currentEditPersonId === personId) {
+                // Update existing person
+                state.updatePersonInGroup(personId, { name, birthYear, testYear, performances });
+                currentEditPersonId = null;
+            } else {
+                // Add new person
+                const id = state.addPersonToGroup({ name, birthYear, testYear });
+                Object.entries(performances).forEach(([category, perf]) => {
+                    if (perf.discipline && perf.value !== null) {
+                        state.setGroupPerformance(id, category, perf.discipline, perf.value);
+                    }
+                });
+            }
+
+            // Clear form
+            document.getElementById('groupPersonFormContainer').innerHTML = '';
+            
+            // Update view
+            updateGroupView();
+            state.saveToLocalStorage();
+        }
+
+        function cancelEditGroupPerson() {
+            currentEditPersonId = null;
+            document.getElementById('groupPersonFormContainer').innerHTML = '';
+        }
+
+        function editGroupPerson(personId) {
+            const person = state.groupData.find(p => p.id === personId);
+            if (!person) return;
+            
+            currentEditPersonId = personId;
+            const container = document.getElementById('groupPersonFormContainer');
+            container.innerHTML = ui.renderGroupPersonForm(person);
+            
+            setupGroupFormListeners();
+            
+            // Populate performance inputs
+            ['ausdauer', 'kraft', 'koordination'].forEach(cat => {
+                const catTitle = cat.charAt(0).toUpperCase() + cat.slice(1);
+                handleGroupDisciplineChange(cat, `group${catTitle}`);
+                
+                const perf = person.performances[cat];
+                if (perf && perf.value !== null) {
+                    const disciplineData = calculator.data.leistungstabellen[cat][perf.discipline];
+                    if (disciplineData.einheit === 'zeit') {
+                        const time = calculator.formatTime(perf.value);
+                        document.getElementById(`group${catTitle}Minutes`).value = time.minutes;
+                        document.getElementById(`group${catTitle}Seconds`).value = time.seconds;
+                    } else {
+                        document.getElementById(`group${catTitle}Value`).value = perf.value;
+                    }
+                }
+            });
+            
+            // Scroll to form
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteGroupPerson(personId) {
+            if (confirm('Person wirklich löschen?')) {
+                state.removePersonFromGroup(personId);
+                updateGroupView();
+                state.saveToLocalStorage();
+            }
+        }
+
+        function clearGroup() {
+            if (confirm('Wirklich alle Personen löschen?')) {
+                state.clearGroup();
+                updateGroupView();
+                state.saveToLocalStorage();
+            }
+        }
+
+        function updateGroupView() {
+            const testYear = parseInt(document.getElementById('groupTestYear').value);
+            
+            if (state.groupData.length === 0) {
+                document.getElementById('groupResults').innerHTML = 
+                    '<p class="empty-message">Noch keine Personen in der Gruppe</p>';
+                document.getElementById('exportBtn').style.display = 'none';
+                document.getElementById('clearBtn').style.display = 'none';
+                return;
+            }
+
+            // Evaluate all persons
+            const groupResults = state.groupData.map(person => {
+                const result = calculator.evaluatePerson({
+                    ...person,
+                    testYear: person.testYear || testYear
+                });
+                return {
+                    ...result,
+                    id: person.id,
+                    name: person.name,
+                    birthYear: person.birthYear
+                };
+            });
+
+            document.getElementById('groupResults').innerHTML = ui.renderGroupTable(groupResults);
+            document.getElementById('exportBtn').style.display = 'inline-block';
+            document.getElementById('clearBtn').style.display = 'inline-block';
+        }
+
+        function exportGroupResults() {
+            const testYear = parseInt(document.getElementById('groupTestYear').value);
+            
+            const groupResults = state.groupData.map(person => {
+                const result = calculator.evaluatePerson({
+                    ...person,
+                    testYear: person.testYear || testYear
+                });
+                return {
+                    ...result,
+                    name: person.name,
+                    birthYear: person.birthYear
+                };
+            });
+
+            const csv = calculator.exportToCSV(groupResults);
+            
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `dFFA_Gruppe_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Update group view when test year changes
+        document.getElementById('groupTestYear').addEventListener('change', () => {
+            if (state.groupData.length > 0) {
+                updateGroupView();
+            }
+        });
+
+        // Auto-save state on changes
+        state.subscribe(() => {
+            state.saveToLocalStorage();
+        });
+    </script>
+</body>
+</html>
