@@ -203,6 +203,12 @@ label {
   letter-spacing: 1px;
 }
 
+/* Prevent label text wrapping */
+.form-group > label {
+  white-space: nowrap;
+  overflow: visible;
+}
+
 input[type="number"],
 input[type="text"],
 select,
@@ -232,9 +238,18 @@ select:hover {
 }
 
 .time-input-group {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.time-input-group .input-addon {
+  flex: 0 0 140px;
+}
+
+/* Single value inputs (Wiederholungen, Sekunden, Meter, etc.) */
+.performance-input-container .input-addon {
+  max-width: 180px;
 }
 
 .input-addon {
@@ -255,6 +270,18 @@ select:hover {
 
 .input-addon input {
   padding-right: 3.5rem;
+}
+
+/* Remove browser stepper buttons to show units clearly */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Buttons */
@@ -740,33 +767,53 @@ footer a:hover {
   .container {
     padding: 1rem;
   }
-  
+
   h1 {
     font-size: 2.5rem;
   }
-  
+
   .nav-tabs {
     flex-direction: column;
   }
-  
+
   .nav-tab {
     min-width: auto;
   }
-  
+
   .card {
     padding: 1.5rem;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .group-table {
     font-size: 0.8rem;
   }
-  
+
   .group-table th,
   .group-table td {
     padding: 0.5rem 0.3rem;
+  }
+}
+
+/* Responsive input fields for mobile */
+@media (max-width: 480px) {
+  .time-input-group {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .performance-input-container .input-addon {
+    max-width: 100%;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
   }
 }
