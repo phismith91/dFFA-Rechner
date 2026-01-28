@@ -132,8 +132,8 @@ Die App funktioniert perfekt auf Smartphones und Tablets!
 ## Support
 
 Bei Problemen:
-1. README.md lesen
-2. PROJEKT-DOKUMENTATION.md konsultieren
+1. docs/README.md lesen
+2. docs/PROJEKT-DOKUMENTATION.md konsultieren
 3. GitHub Issue erstellen
 
 ## Nächste Schritte

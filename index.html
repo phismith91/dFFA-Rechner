@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=5">
 </head>
 <body>
     <div class="container">
@@ -152,16 +152,25 @@
                     <button class="btn btn-primary" onclick="showAddPersonForm()">
                         ➕ Person hinzufügen
                     </button>
-                    <button class="btn btn-secondary" onclick="exportGroupResults()" 
+                    <button class="btn btn-secondary" onclick="document.getElementById('csvFileInput').click()">
+                        📤 CSV importieren
+                    </button>
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="importGroupFromCSV(event)">
+                    <button class="btn btn-secondary" onclick="exportGroupResults()"
                             id="exportBtn" style="display: none;">
                         📥 Als CSV exportieren
                     </button>
-                    <button class="btn btn-danger" onclick="clearGroup()" 
+                    <button class="btn btn-secondary" onclick="emailGroupResults()"
+                            id="emailBtn" style="display: none;">
+                        ✉️ Per E-Mail versenden
+                    </button>
+                    <button class="btn btn-danger" onclick="clearGroup()"
                             id="clearBtn" style="display: none;">
                         🗑️ Alle löschen
                     </button>
                 </div>
 
+                <div id="groupStats" style="display: none;"></div>
                 <div id="groupResults"></div>
             </div>
         </div>
@@ -180,8 +189,9 @@
                 • Die Prüfung muss innerhalb eines Kalenderjahres (1.1. bis 31.12.) abgelegt werden<br>
                 <br>
                 <strong>Weitere Informationen:</strong><br>
-                • <a href="https://dfs-ev.de/deutsches-feuerwehr-fitnessabzeichen" target="_blank" rel="noopener">Offizielle Broschüre zum dFFA</a><br>
-                • <a href="https://dfs-ev.de/deutsches-feuerwehr-fitnessabzeichen" target="_blank" rel="noopener">Leistungstabellen und Anforderungen</a><br>
+                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/BROSCHRE2019_AK_1.pdf" target="_blank" rel="noopener">Offizielle Broschüre zum dFFA</a><br>
+                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/Leistungstabellen_dFFA.pdf" target="_blank" rel="noopener">Leistungstabellen und Anforderungen</a><br>
+                • <a href="https://dfs-ev.de/test/" target="_blank" rel="noopener">Testseite der DFS</a><br>
             </div>
         </div>
 
@@ -562,13 +572,75 @@
             }
         }
 
+        function renderGroupStats(groupResults) {
+            // Calculate statistics
+            const total = groupResults.length;
+            const badges = {
+                gold: groupResults.filter(p => p.finalBadge === 'gold').length,
+                silver: groupResults.filter(p => p.finalBadge === 'silber').length,
+                bronze: groupResults.filter(p => p.finalBadge === 'bronze').length,
+                failed: groupResults.filter(p => !p.finalBadge).length
+            };
+
+            const passed = badges.gold + badges.silver + badges.bronze;
+            const successRate = ((passed / total) * 100).toFixed(1);
+
+            const ages = groupResults.map(p => p.age);
+            const avgAge = (ages.reduce((sum, age) => sum + age, 0) / total).toFixed(1);
+
+            return `
+                <div class="group-stats">
+                    <div class="stat-card">
+                        <span class="stat-value">${total}</span>
+                        <span class="stat-label">Teilnehmer</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-value">${successRate}%</span>
+                        <span class="stat-label">Erfolgsquote</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-value">${avgAge}</span>
+                        <span class="stat-label">⌀ Alter</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-label">Abzeichen-Verteilung</span>
+                        <div class="badge-distribution">
+                            <div class="badge-stat">
+                                <span class="badge-stat-value" style="color: var(--gold);">🥇 ${badges.gold}</span>
+                                <span class="badge-stat-label">Gold</span>
+                            </div>
+                            <div class="badge-stat">
+                                <span class="badge-stat-value" style="color: var(--silver);">🥈 ${badges.silver}</span>
+                                <span class="badge-stat-label">Silber</span>
+                            </div>
+                            <div class="badge-stat">
+                                <span class="badge-stat-value" style="color: var(--bronze);">🥉 ${badges.bronze}</span>
+                                <span class="badge-stat-label">Bronze</span>
+                            </div>
+                            ${badges.failed > 0 ? `
+                            <div class="badge-stat">
+                                <span class="badge-stat-value" style="color: var(--error);">❌ ${badges.failed}</span>
+                                <span class="badge-stat-label">Keine</span>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         function updateGroupView() {
             const testYear = parseInt(document.getElementById('groupTestYear').value);
-            
+
             if (state.groupData.length === 0) {
-                document.getElementById('groupResults').innerHTML = 
+                document.getElementById('groupResults').innerHTML =
                     '<p class="empty-message">Noch keine Personen in der Gruppe</p>';
+                document.getElementById('groupStats').style.display = 'none';
                 document.getElementById('exportBtn').style.display = 'none';
+                document.getElementById('emailBtn').style.display = 'none';
                 document.getElementById('clearBtn').style.display = 'none';
                 return;
             }
@@ -587,8 +659,14 @@
                 };
             });
 
+            // Render statistics
+            document.getElementById('groupStats').innerHTML = renderGroupStats(groupResults);
+            document.getElementById('groupStats').style.display = 'block';
+
+            // Render table
             document.getElementById('groupResults').innerHTML = ui.renderGroupTable(groupResults);
             document.getElementById('exportBtn').style.display = 'inline-block';
+            document.getElementById('emailBtn').style.display = 'inline-block';
             document.getElementById('clearBtn').style.display = 'inline-block';
         }
 
@@ -619,6 +697,165 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+
+        function emailGroupResults() {
+            const testYear = parseInt(document.getElementById('groupTestYear').value);
+
+            const groupResults = state.groupData.map(person => {
+                const result = calculator.evaluatePerson({
+                    ...person,
+                    testYear: person.testYear || testYear
+                });
+                return {
+                    ...result,
+                    name: person.name,
+                    birthYear: person.birthYear
+                };
+            });
+
+            // Download CSV first
+            exportGroupResults();
+
+            // Prepare email
+            const subject = encodeURIComponent(`dFFA Gruppenergebnisse - ${new Date().toLocaleDateString('de-DE')}`);
+            const body = encodeURIComponent(
+                `Hallo,\n\n` +
+                `anbei sende ich die Ergebnisse der dFFA-Gruppenabnahme vom ${new Date().toLocaleDateString('de-DE')}.\n\n` +
+                `Anzahl Teilnehmer: ${groupResults.length}\n\n` +
+                `Die CSV-Datei wurde heruntergeladen. Bitte füge sie als Anhang dieser E-Mail hinzu.\n\n` +
+                `Viele Grüße`
+            );
+
+            // Open email client
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }
+
+        function importGroupFromCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const csv = e.target.result;
+                    const lines = csv.split('\n').filter(line => line.trim());
+
+                    if (lines.length < 2) {
+                        alert('CSV-Datei ist leer oder ungültig');
+                        return;
+                    }
+
+                    // Header überspringen
+                    const dataLines = lines.slice(1);
+                    let importCount = 0;
+                    let errorCount = 0;
+
+                    const testYear = parseInt(document.getElementById('groupTestYear').value);
+
+                    dataLines.forEach(line => {
+                        try {
+                            // CSV-Zeile parsen (mit Anführungszeichen)
+                            const values = line.match(/(".*?"|[^,]+)(?=\s*,|\s*$)/g).map(v => v.replace(/^"|"$/g, '').trim());
+
+                            if (values.length < 14) return;
+
+                            const name = values[0];
+                            const birthYear = parseInt(values[1]);
+                            const ausdauerDiscipline = values[4];
+                            const ausdauerValue = values[5];
+                            const kraftDiscipline = values[7];
+                            const kraftValue = values[8];
+                            const koordinationDiscipline = values[10];
+                            const koordinationValue = values[11];
+
+                            if (!name || !birthYear) {
+                                errorCount++;
+                                return;
+                            }
+
+                            // Person zum State hinzufügen
+                            const personId = state.addPersonToGroup({ name, birthYear, testYear });
+
+                            // Disziplinen und Leistungen hinzufügen
+                            const categories = ['ausdauer', 'kraft', 'koordination'];
+                            const disciplineNames = [ausdauerDiscipline, kraftDiscipline, koordinationDiscipline];
+                            const values_perf = [ausdauerValue, kraftValue, koordinationValue];
+
+                            categories.forEach((category, idx) => {
+                                const disciplineName = disciplineNames[idx];
+                                const perfValue = values_perf[idx];
+
+                                if (!disciplineName || !perfValue || perfValue === 'nicht bestanden') return;
+
+                                // Finde den Disziplin-Key anhand des Namens
+                                const disciplines = calculator.getDisciplines(category);
+                                const disciplineObj = disciplines.find(d => d.name === disciplineName);
+
+                                if (!disciplineObj) return;
+
+                                const disciplineKey = disciplineObj.key;
+                                const disciplineData = calculator.data.leistungstabellen[category][disciplineKey];
+
+                                // Parse den Wert basierend auf der Einheit
+                                let parsedValue = null;
+
+                                if (disciplineData.einheit === 'zeit') {
+                                    // Format: "MM:SS min" oder "SS sek"
+                                    const timeMatch = perfValue.match(/(\d+):(\d+)|(\d+)/);
+                                    if (timeMatch) {
+                                        if (timeMatch[1] && timeMatch[2]) {
+                                            // MM:SS Format
+                                            parsedValue = parseInt(timeMatch[1]) * 60 + parseInt(timeMatch[2]);
+                                        } else if (timeMatch[3]) {
+                                            // Nur Sekunden
+                                            parsedValue = parseInt(timeMatch[3]);
+                                        }
+                                    }
+                                } else if (disciplineData.einheit === 'distanz') {
+                                    // Format: "XX.X km"
+                                    const distMatch = perfValue.match(/[\d.]+/);
+                                    if (distMatch) parsedValue = parseFloat(distMatch[0]);
+                                } else if (disciplineData.einheit === 'meter') {
+                                    // Format: "XX m"
+                                    const meterMatch = perfValue.match(/\d+/);
+                                    if (meterMatch) parsedValue = parseInt(meterMatch[0]);
+                                } else if (disciplineData.einheit === 'wiederholungen' || disciplineData.einheit === 'sekunden') {
+                                    // Format: "XX"
+                                    const numMatch = perfValue.match(/\d+/);
+                                    if (numMatch) parsedValue = parseInt(numMatch[0]);
+                                }
+
+                                if (parsedValue !== null) {
+                                    state.setGroupPerformance(personId, category, disciplineKey, parsedValue);
+                                }
+                            });
+
+                            importCount++;
+                        } catch (err) {
+                            console.error('Fehler beim Parsen der Zeile:', line, err);
+                            errorCount++;
+                        }
+                    });
+
+                    // Erfolgsmeldung
+                    if (importCount > 0) {
+                        alert(`✓ ${importCount} Person(en) erfolgreich importiert${errorCount > 0 ? `\n⚠ ${errorCount} Zeile(n) konnten nicht importiert werden` : ''}`);
+                        updateGroupView();
+                        state.saveToLocalStorage();
+                    } else {
+                        alert('Keine Daten konnten importiert werden. Bitte überprüfe das CSV-Format.');
+                    }
+
+                    // Reset file input
+                    event.target.value = '';
+                } catch (error) {
+                    console.error('Fehler beim CSV-Import:', error);
+                    alert('Fehler beim Importieren der CSV-Datei: ' + error.message);
+                }
+            };
+
+            reader.readAsText(file, 'UTF-8');
         }
 
         // Update group view when test year changes

@@ -5,7 +5,12 @@
 ```
 dffa-rechner/
 ├── index.html                  # Haupt-HTML-Datei (SPA)
-├── README.md                   # GitHub/GitLab Dokumentation
+├── docs/                       # Projekt-Dokumentation
+│   ├── README.md
+│   ├── SCHNELLSTART.md
+│   ├── TESTS.md
+│   ├── PROJEKT-DOKUMENTATION.md
+│   └── HTML_DESIGN_AGENT.md
 ├── LICENSE                     # MIT-Lizenz
 ├── .gitignore                 # Git-Ausschlüsse
 │
@@ -43,7 +48,9 @@ dffa-rechner/
 - **Funktionen:**
   - Personen hinzufügen/bearbeiten/löschen
   - Übersichtliche Tabelle mit allen Ergebnissen
-  - CSV-Export für Excel/Sheets
+   - CSV-Import und CSV-Export für Excel/Sheets
+   - Ergebnisse per E-Mail versenden (mailto)
+   - Gruppenstatistiken (Teilnehmer, Erfolgsquote, Ø Alter, Abzeichen-Verteilung)
   - Auto-Save im LocalStorage
 - **Extras:**
   - Inline-Bearbeitung
@@ -100,19 +107,37 @@ Data Layer ←→ Business Logic ←→ State Management ←→ UI Layer
    }
    ```
 
+5. **App-Controller / Inline-Skripte** (`index.html`)
+   - Initialisierung der Views und Event-Handler
+   - Gruppenstatistiken, CSV-Import/Export, E-Mail-Versand
+   - Validierungen und UI-Interaktionen
+
 ## 🎨 Design-System
 
 ### Farbpalette
 ```css
---fire-red: #C41E3A;        /* Primärfarbe, Akzente */
---fire-orange: #FF6B35;     /* Sekundärfarbe, Hover */
---fire-yellow: #FFA500;     /* Highlights */
---deep-black: #0A0A0A;      /* Hintergrund */
---ash-gray: #2A2A2A;        /* Cards */
---smoke-gray: #4A4A4A;      /* Borders */
---silver-gray: #C0C0C0;     /* Text, Silber */
---gold: #FFD700;            /* Gold-Badge */
---bronze: #CD7F32;          /* Bronze-Badge */
+--fire-red: #DC2626;        /* Primärfarbe */
+--fire-red-dark: #B91C1C;   /* Hover */
+--fire-red-light: #FEE2E2;  /* Hintergründe */
+
+--gray-50: #F9FAFB;
+--gray-100: #F3F4F6;
+--gray-200: #E5E7EB;
+--gray-300: #D1D5DB;
+--gray-400: #9CA3AF;
+--gray-500: #6B7280;
+--gray-600: #4B5563;
+--gray-700: #374151;
+--gray-800: #1F2937;
+--gray-900: #111827;
+
+--bronze: #CD7F32;
+--silver: #C0C0C0;
+--gold: #FFD700;
+
+--success: #10B981;
+--error: #EF4444;
+--warning: #F59E0B;
 ```
 
 ### Typografie
@@ -121,18 +146,20 @@ Data Layer ←→ Business Logic ←→ State Management ←→ UI Layer
 - **Fallback:** System Fonts
 
 ### Komponenten
-- Cards mit Glassmorphism
-- Gradient Buttons
-- Badge-System (Bronze/Silber/Gold)
-- Modal-Dialoge
-- Responsive Tables
+- Cards mit dezenten Schatten
+- Tab-Navigation (Anforderungen, Einzelrechner, Gruppenabnahme)
+- Badge-System (Bronze/Silber/Gold, Silber mit Verlauf)
+- Info-Buttons + Modal-Dialoge (Backdrop Blur)
+- Responsive Tabellen mit Horizontal-Scroll
 
 ## 📱 Responsive Design
 
 ### Breakpoints
-- Desktop: > 1024px (3-Spalten-Layout)
-- Tablet: 768px - 1024px (2-Spalten-Layout)
-- Mobile: < 768px (1-Spalten-Layout)
+- Large: ≥ 1200px (Tabellen ohne feste Breite)
+- Desktop: 1024px – 1199px (Tabellen scrollen horizontal)
+- Tablet: 768px – 1023px (gestapelte Layouts)
+- Mobile: ≤ 767px (kompakte Forms, kleinere Abstände)
+- Small: ≤ 480px (optimierte Inputs/Badges)
 
 ### Mobile-Optimierungen
 - Touch-freundliche Buttons (min. 44x44px)
@@ -259,12 +286,12 @@ Data Layer ←→ Business Logic ←→ State Management ←→ UI Layer
 - Logische Funktionsnamen
 - Konsistente Code-Formatierung
 - Kommentare auf Deutsch
-- README mit Beispielen
+- docs/README.md mit Beispielen
 
 ## 📞 Support
 
 Bei Fragen oder Problemen:
-1. README.md lesen
+1. `docs/README.md` lesen
 2. Code-Kommentare prüfen
 3. GitHub Issues erstellen
 

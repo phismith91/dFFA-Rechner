@@ -130,7 +130,7 @@ Der Agent liefert:
 1. **HTML Datei(n)** - Vollständig strukturiert
 2. **CSS Datei(n)** - Vollständig gestylt
 3. **JavaScript Datei(n)** - Mit Funktionalität
-4. **README.md** - Installier- und Nutzungsanleitung
+4. **docs/README.md** - Installier- und Nutzungsanleitung
 5. **Assets** - Bilder, Icons (wenn nötig)
 6. **Documentation** - Code-Kommentare & Erklärungen
 7. **Accessibility Report** - WCAG Compliance Check
