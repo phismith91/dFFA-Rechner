@@ -4,6 +4,24 @@
  */
 
 const dFFAData = {
+  // Metadaten
+  name: 'dFFA',
+  fullName: 'Deutsches Feuerwehr-Fitnessabzeichen',
+  minAge: 18,
+  maxAge: null,
+
+  // Altersklassen-Definitionen
+  altersklassen: {
+    '18-29': { min: 18, max: 29 },
+    '30-34': { min: 30, max: 34 },
+    '35-39': { min: 35, max: 39 },
+    '40-44': { min: 40, max: 44 },
+    '45-49': { min: 45, max: 49 },
+    '50-54': { min: 50, max: 54 },
+    '55-59': { min: 55, max: 59 },
+    '60+': { min: 60, max: null }
+  },
+
   // Leistungstabellen nach Altersklassen und Disziplinen
   leistungstabellen: {
     ausdauer: {

@@ -9,6 +9,28 @@ class dFFAUI {
   }
 
   /**
+   * Rendert das Varianten-Dropdown (dFFA/dJFFA Auswahl)
+   * @param {string} selectedVariant - Aktuell ausgewählte Variante ('dFFA' oder 'dJFFA')
+   * @param {string} id - ID für das Select-Element
+   * @returns {string} HTML
+   */
+  renderVariantSelect(selectedVariant = 'dFFA', id = 'variantSelect') {
+    return `
+      <div class="form-group variant-selector">
+        <label for="${id}"><strong>System auswählen:</strong></label>
+        <select id="${id}" class="variant-select" onchange="handleVariantChange(this.value)">
+          <option value="dFFA" ${selectedVariant === 'dFFA' ? 'selected' : ''}>
+            dFFA - Deutsches Feuerwehr-Fitnessabzeichen (ab 18 Jahre)
+          </option>
+          <option value="dJFFA" ${selectedVariant === 'dJFFA' ? 'selected' : ''}>
+            dJFFA - Deutsches Jugendfeuerwehr-Fitnessabzeichen (10-17 Jahre)
+          </option>
+        </select>
+      </div>
+    `;
+  }
+
+  /**
    * Rendert eine Info-Modal für Disziplin-Beschreibung
    * @param {string} title - Titel der Disziplin
    * @param {string} description - Beschreibung

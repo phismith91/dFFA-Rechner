@@ -6,6 +6,7 @@
 class dFFACalculator {
   constructor(data) {
     this.data = data;
+    this.variant = data.name || 'dFFA';
   }
 
   /**
@@ -16,17 +17,18 @@ class dFFACalculator {
    */
   getAgeGroup(birthYear, testYear) {
     const age = testYear - birthYear;
-    
-    if (age < 18) return null; // Zu jung für Erwachsenen-dFFA
-    if (age >= 18 && age <= 29) return '18-29';
-    if (age >= 30 && age <= 34) return '30-34';
-    if (age >= 35 && age <= 39) return '35-39';
-    if (age >= 40 && age <= 44) return '40-44';
-    if (age >= 45 && age <= 49) return '45-49';
-    if (age >= 50 && age <= 54) return '50-54';
-    if (age >= 55 && age <= 59) return '55-59';
-    if (age >= 60) return '60+';
-    
+
+    if (age < this.data.minAge) return null;
+    if (this.data.maxAge !== null && age > this.data.maxAge) return null;
+
+    for (const [ageGroupKey, range] of Object.entries(this.data.altersklassen)) {
+      if (range.max === null) {
+        if (age >= range.min) return ageGroupKey;
+      } else {
+        if (age >= range.min && age <= range.max) return ageGroupKey;
+      }
+    }
+
     return null;
   }
 
@@ -304,7 +306,7 @@ class dFFACalculator {
    * @returns {Array} Array von Altersklassen
    */
   getAllAgeGroups() {
-    return ['18-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60+'];
+    return Object.keys(this.data.altersklassen);
   }
 
   /**

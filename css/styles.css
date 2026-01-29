@@ -971,3 +971,42 @@ footer a:hover {
     page-break-inside: avoid;
   }
 }
+
+/* Varianten-Auswahl (dFFA/dJFFA) */
+.variant-selector {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.variant-selector label {
+  color: white;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.variant-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid white;
+  border-radius: 6px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.variant-select:hover {
+  border-color: #ffd700;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.variant-select:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+}

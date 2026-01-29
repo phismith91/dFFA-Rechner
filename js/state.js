@@ -5,6 +5,7 @@
 
 class dFFAState {
   constructor() {
+    this.variant = 'dFFA'; // 'dFFA' oder 'dJFFA'
     this.currentView = 'requirements'; // 'requirements', 'individual', 'group'
     this.currentYear = new Date().getFullYear();
     this.selectedDisciplines = {
@@ -46,6 +47,7 @@ class dFFAState {
    */
   getState() {
     return {
+      variant: this.variant,
       currentView: this.currentView,
       currentYear: this.currentYear,
       selectedDisciplines: { ...this.selectedDisciplines },
@@ -60,6 +62,18 @@ class dFFAState {
    */
   setView(view) {
     this.currentView = view;
+    this.notify();
+  }
+
+  /**
+   * Setzt die Variante (dFFA oder dJFFA)
+   * @param {string} variant - Variante
+   */
+  setVariant(variant) {
+    if (variant !== 'dFFA' && variant !== 'dJFFA') {
+      throw new Error('Variante muss "dFFA" oder "dJFFA" sein');
+    }
+    this.variant = variant;
     this.notify();
   }
 
@@ -189,6 +203,7 @@ class dFFAState {
       const saved = localStorage.getItem('dffa_state');
       if (saved) {
         const state = JSON.parse(saved);
+        this.variant = state.variant || 'dFFA';
         this.currentView = state.currentView || this.currentView;
         this.currentYear = state.currentYear || this.currentYear;
         this.selectedDisciplines = state.selectedDisciplines || this.selectedDisciplines;

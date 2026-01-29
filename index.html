@@ -34,6 +34,9 @@
             </button>
         </nav>
 
+        <!-- Global Variant Selector -->
+        <div id="globalVariantSelect"></div>
+
         <!-- View 1: Anforderungen -->
         <div id="requirementsView" class="view active">
             <div class="card">
@@ -221,15 +224,17 @@
 
     <!-- Scripts -->
     <script src="data/dffa-data.js"></script>
+    <script src="data/djffa-data.js"></script>
     <script src="js/calculator.js"></script>
     <script src="js/state.js"></script>
     <script src="js/ui.js"></script>
     
     <script>
         // Globale Instanzen
-        const calculator = new dFFACalculator(dFFAData);
+        let currentData = dFFAData;
+        let calculator = new dFFACalculator(currentData);
         const state = new dFFAState();
-        const ui = new dFFAUI(calculator);
+        let ui = new dFFAUI(calculator);
         
         // Aktuelles Jahr setzen
         const currentYear = new Date().getFullYear();
@@ -240,12 +245,15 @@
 
         // Initialisierung
         document.addEventListener('DOMContentLoaded', () => {
+            // State laden wenn vorhanden
+            state.loadFromLocalStorage();
+
+            // Variante setzen
+            switchToVariant(state.variant);
+
             initializeRequirementsView();
             initializeIndividualView();
             initializeGroupView();
-            
-            // State laden wenn vorhanden
-            state.loadFromLocalStorage();
         });
 
         // View Switching
@@ -278,21 +286,58 @@
             }
         });
 
+        // Varianten-Handling (dFFA/dJFFA)
+        function handleVariantChange(variant) {
+            if (confirm(`Wirklich zu ${variant === 'dFFA' ? 'dFFA (Erwachsene)' : 'dJFFA (Jugend)'} wechseln?\n\nAlle eingegebenen Daten bleiben erhalten, aber die Anforderungen ändern sich.`)) {
+                state.setVariant(variant);
+                switchToVariant(variant);
+
+                initializeRequirementsView();
+                initializeIndividualView();
+                initializeGroupView();
+
+                // Ergebnisse ausblenden bei Wechsel
+                document.getElementById('requirementsResults').style.display = 'none';
+                document.getElementById('individualResults').style.display = 'none';
+            } else {
+                // Dropdowns zurücksetzen wenn abgebrochen
+                updateVariantDropdowns(state.variant);
+            }
+        }
+
+        function switchToVariant(variant) {
+            currentData = variant === 'dJFFA' ? dJFFAData : dFFAData;
+            calculator = new dFFACalculator(currentData);
+            ui = new dFFAUI(calculator);
+            updateVariantDropdowns(variant);
+        }
+
+        function updateVariantDropdowns(variant) {
+            const globalDropdown = document.getElementById('globalVariantSelect');
+            if (globalDropdown) {
+                globalDropdown.innerHTML = ui.renderVariantSelect(variant, 'globalVariant');
+            }
+        }
+
         // === FEATURE 1: Anforderungen ===
         
         function initializeRequirementsView() {
+            // Varianten-Dropdown rendern
+            updateVariantDropdowns(state.variant);
+
             // Disziplin-Filter erstellen
             const categories = ['ausdauer', 'kraft', 'koordination'];
             categories.forEach(category => {
                 const container = document.getElementById(`${category}Filters`);
+                container.innerHTML = ''; // Clear existing
                 const disciplines = calculator.getDisciplines(category);
-                
+
                 disciplines.forEach(disc => {
                     const checkbox = document.createElement('label');
                     checkbox.style.display = 'block';
                     checkbox.style.marginBottom = '0.5rem';
                     checkbox.innerHTML = `
-                        <input type="checkbox" value="${disc.key}" 
+                        <input type="checkbox" value="${disc.key}"
                                onchange="updateDisciplineFilter('${category}', '${disc.key}', this.checked)">
                         ${disc.name}
                     `;
