@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Offizieller Rechner für das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) - Anforderungen, Einzelbewertung und Gruppenabnahme">
+    <meta name="description"
+        content="Inoffizieller Rechner für das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) - Anforderungen, Einzelbewertung und Gruppenabnahme">
     <meta name="keywords" content="dFFA, Feuerwehr, Fitness, Fitnessabzeichen, DFS, Sportabzeichen">
     <title>dFFA Rechner - Deutsches Feuerwehr-Fitnessabzeichen</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css?v=5">
 </head>
+
 <body>
     <div class="container">
         <!-- Header -->
@@ -48,13 +53,12 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="reqBirthYear">Geburtsjahr</label>
-                        <input type="number" id="reqBirthYear" min="1950" max="2020" 
-                               placeholder="z.B. 1990" value="1990">
+                        <input type="number" id="reqBirthYear" min="1950" max="2020" placeholder="z.B. 1990"
+                            value="1990">
                     </div>
                     <div class="form-group">
                         <label for="reqTestYear">Jahr der Abnahme</label>
-                        <input type="number" id="reqTestYear" min="2024" max="2030" 
-                               placeholder="z.B. 2026">
+                        <input type="number" id="reqTestYear" min="2024" max="2030" placeholder="z.B. 2026">
                     </div>
                 </div>
 
@@ -99,13 +103,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="indivBirthYear">Geburtsjahr</label>
-                        <input type="number" id="indivBirthYear" min="1950" max="2020" 
-                               placeholder="z.B. 1990">
+                        <input type="number" id="indivBirthYear" min="1950" max="2020" placeholder="z.B. 1990">
                     </div>
                     <div class="form-group">
                         <label for="indivTestYear">Jahr der Abnahme</label>
-                        <input type="number" id="indivTestYear" min="2024" max="2030" 
-                               placeholder="z.B. 2026">
+                        <input type="number" id="indivTestYear" min="2024" max="2030" placeholder="z.B. 2026">
                     </div>
                 </div>
 
@@ -145,8 +147,7 @@
 
                 <div class="form-group">
                     <label for="groupTestYear">Jahr der Abnahme</label>
-                    <input type="number" id="groupTestYear" min="2024" max="2030" 
-                           placeholder="z.B. 2026">
+                    <input type="number" id="groupTestYear" min="2024" max="2030" placeholder="z.B. 2026">
                 </div>
 
                 <div id="groupPersonFormContainer"></div>
@@ -158,17 +159,17 @@
                     <button class="btn btn-secondary" onclick="document.getElementById('csvFileInput').click()">
                         📤 CSV importieren
                     </button>
-                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;" onchange="importGroupFromCSV(event)">
-                    <button class="btn btn-secondary" onclick="exportGroupResults()"
-                            id="exportBtn" style="display: none;">
+                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;"
+                        onchange="importGroupFromCSV(event)">
+                    <button class="btn btn-secondary" onclick="exportGroupResults()" id="exportBtn"
+                        style="display: none;">
                         📥 Als CSV exportieren
                     </button>
-                    <button class="btn btn-secondary" onclick="emailGroupResults()"
-                            id="emailBtn" style="display: none;">
+                    <button class="btn btn-secondary" onclick="emailGroupResults()" id="emailBtn"
+                        style="display: none;">
                         ✉️ Per E-Mail versenden
                     </button>
-                    <button class="btn btn-danger" onclick="clearGroup()"
-                            id="clearBtn" style="display: none;">
+                    <button class="btn btn-danger" onclick="clearGroup()" id="clearBtn" style="display: none;">
                         🗑️ Alle löschen
                     </button>
                 </div>
@@ -182,30 +183,37 @@
         <div class="card">
             <h3 class="card-title">Über das dFFA</h3>
             <div class="modal-body">
-                <p>Das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) ist das sportliche Ehrenzeichen der Feuerwehr als Auszeichnung für gute und vielseitige körperliche Leistungsfähigkeit.</p>
+                <p>Das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) ist das sportliche Ehrenzeichen der Feuerwehr als
+                    Auszeichnung für gute und vielseitige körperliche Leistungsfähigkeit.</p>
                 <br>
                 <strong>Wichtige Regelungen:</strong><br>
                 • Aus jeder der drei Disziplingruppen (Ausdauer, Kraft, Koordination) muss eine Übung erfüllt werden<br>
                 • Das Abzeichen wird in den Stufen Bronze, Silber und Gold verliehen<br>
-                • Für Silber und Gold müssen alle drei Disziplinen mindestens in der jeweiligen Stufe erreicht werden<br>
+                • Für Silber und Gold müssen alle drei Disziplinen mindestens in der jeweiligen Stufe erreicht
+                werden<br>
                 • Für die Altersklasse ist das Geburtsjahr im Jahr der Abnahme entscheidend<br>
                 • Die Prüfung muss innerhalb eines Kalenderjahres (1.1. bis 31.12.) abgelegt werden<br>
                 <br>
                 <strong>Weitere Informationen:</strong><br>
-                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/BROSCHRE2019_AK_1.pdf" target="_blank" rel="noopener">Offizielle Broschüre zum dFFA</a><br>
-                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/Leistungstabellen_dFFA.pdf" target="_blank" rel="noopener">Leistungstabellen und Anforderungen</a><br>
+                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/BROSCHRE2019_AK_1.pdf" target="_blank"
+                    rel="noopener">Offizielle Broschüre zum dFFA</a><br>
+                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/Leistungstabellen_dFFA.pdf" target="_blank"
+                    rel="noopener">Leistungstabellen und Anforderungen</a><br>
                 • <a href="https://dfs-ev.de/test/" target="_blank" rel="noopener">Testseite der DFS</a><br>
             </div>
         </div>
 
         <!-- Footer -->
         <footer>
-            <p>Datengrundlage: <a href="https://dfs-ev.de" target="_blank" rel="noopener">Deutsche Feuerwehr-Sportföderation e.V.</a></p>
-            <p style="margin-top: 0.5rem;">Diese Website ist ein inoffizielles Hilfsmittel zur Berechnung der dFFA-Leistungen</p>
+            <p>Datengrundlage: <a href="https://dfs-ev.de" target="_blank" rel="noopener">Deutsche
+                    Feuerwehr-Sportföderation e.V.</a></p>
+            <p style="margin-top: 0.5rem;">Diese Website ist ein inoffizielles Hilfsmittel zur Berechnung der
+                dFFA-Leistungen</p>
             <p style="margin-top: 1rem;">
                 <a href="impressum.html">Impressum</a> |
                 <a href="datenschutz.html">Datenschutz</a> |
-                <a href="https://github.com/phismith91/dFFA-Rechner" target="_blank" rel="noopener">GitHub Repository</a>
+                <a href="https://github.com/phismith91/dFFA-Rechner" target="_blank" rel="noopener">GitHub
+                    Repository</a>
             </p>
             <p style="margin-top: 0.5rem; font-size: 0.85rem;">Version 1.0 | Stand: Januar 2026</p>
         </footer>
@@ -228,14 +236,14 @@
     <script src="js/calculator.js"></script>
     <script src="js/state.js"></script>
     <script src="js/ui.js"></script>
-    
+
     <script>
         // Globale Instanzen
         let currentData = dFFAData;
         let calculator = new dFFACalculator(currentData);
         const state = new dFFAState();
         let ui = new dFFAUI(calculator);
-        
+
         // Aktuelles Jahr setzen
         const currentYear = new Date().getFullYear();
         document.getElementById('reqTestYear').value = currentYear;
@@ -260,13 +268,13 @@
         function switchView(viewName) {
             const views = document.querySelectorAll('.view');
             const tabs = document.querySelectorAll('.nav-tab');
-            
+
             views.forEach(view => view.classList.remove('active'));
             tabs.forEach(tab => tab.classList.remove('active'));
-            
+
             document.getElementById(`${viewName}View`).classList.add('active');
             event.target.classList.add('active');
-            
+
             state.setView(viewName);
         }
 
@@ -320,7 +328,7 @@
         }
 
         // === FEATURE 1: Anforderungen ===
-        
+
         function initializeRequirementsView() {
             // Varianten-Dropdown rendern
             updateVariantDropdowns(state.variant);
@@ -359,7 +367,7 @@
         function calculateRequirements() {
             const birthYear = parseInt(document.getElementById('reqBirthYear').value);
             const testYear = parseInt(document.getElementById('reqTestYear').value);
-            
+
             if (!birthYear || !testYear) {
                 alert('Bitte Geburtsjahr und Jahr der Abnahme eingeben');
                 return;
@@ -372,7 +380,7 @@
             }
 
             const age = calculator.getAge(birthYear, testYear);
-            
+
             // Nur ausgewählte Disziplinen wenn Filter aktiv
             let selectedDisciplines = null;
             if (document.getElementById('filterDisciplines').checked) {
@@ -380,7 +388,7 @@
                 ['ausdauer', 'kraft', 'koordination'].forEach(cat => {
                     selectedDisciplines.push(...state.selectedDisciplines[cat]);
                 });
-                
+
                 if (selectedDisciplines.length === 0) {
                     alert('Bitte mindestens eine Disziplin auswählen');
                     return;
@@ -400,13 +408,13 @@
         }
 
         // === FEATURE 2: Einzelrechner ===
-        
+
         function initializeIndividualView() {
-            document.getElementById('indivAusdauerSelect').innerHTML = 
+            document.getElementById('indivAusdauerSelect').innerHTML =
                 ui.renderDisciplineSelect('ausdauer', '', 'indivAusdauer');
-            document.getElementById('indivKraftSelect').innerHTML = 
+            document.getElementById('indivKraftSelect').innerHTML =
                 ui.renderDisciplineSelect('kraft', '', 'indivKraft');
-            document.getElementById('indivKoordinationSelect').innerHTML = 
+            document.getElementById('indivKoordinationSelect').innerHTML =
                 ui.renderDisciplineSelect('koordination', '', 'indivKoordination');
         }
 
@@ -414,7 +422,7 @@
             const select = document.getElementById(selectId);
             const discipline = select.value;
             const inputContainer = document.getElementById(`${selectId}Input`);
-            
+
             if (discipline) {
                 inputContainer.innerHTML = ui.renderPerformanceInput(category, discipline, selectId);
             } else {
@@ -425,7 +433,7 @@
         function calculateIndividual() {
             const birthYear = parseInt(document.getElementById('indivBirthYear').value);
             const testYear = parseInt(document.getElementById('indivTestYear').value);
-            
+
             if (!birthYear || !testYear) {
                 alert('Bitte Geburtsjahr und Jahr der Abnahme eingeben');
                 return;
@@ -438,13 +446,13 @@
             };
 
             // Validierung
-            if (!performances.ausdauer.discipline || !performances.kraft.discipline || 
+            if (!performances.ausdauer.discipline || !performances.kraft.discipline ||
                 !performances.koordination.discipline) {
                 alert('Bitte alle drei Disziplinen auswählen');
                 return;
             }
 
-            if (performances.ausdauer.value === null || performances.kraft.value === null || 
+            if (performances.ausdauer.value === null || performances.kraft.value === null ||
                 performances.koordination.value === null) {
                 alert('Bitte alle Leistungen eingeben');
                 return;
@@ -452,7 +460,7 @@
 
             const personData = { birthYear, testYear, performances };
             const result = calculator.evaluatePerson(personData);
-            
+
             const resultsDiv = document.getElementById('individualResults');
             resultsDiv.innerHTML = ui.renderIndividualResult(result);
             resultsDiv.style.display = 'block';
@@ -461,16 +469,16 @@
         function getPerformanceValue(idPrefix, category) {
             const select = document.getElementById(idPrefix);
             const discipline = select.value;
-            
+
             if (!discipline) {
                 return { discipline: null, value: null };
             }
 
             const disciplineData = calculator.data.leistungstabellen[category][discipline];
             const einheit = disciplineData.einheit;
-            
+
             let value = null;
-            
+
             if (einheit === 'zeit') {
                 const minutesInput = document.getElementById(`${idPrefix}Minutes`)?.value;
                 const secondsInput = document.getElementById(`${idPrefix}Seconds`)?.value;
@@ -486,14 +494,14 @@
             } else {
                 value = parseFloat(document.getElementById(`${idPrefix}Value`)?.value);
             }
-            
+
             return { discipline, value };
         }
 
         // === FEATURE 3: Gruppenabnahme ===
-        
+
         let currentEditPersonId = null;
-        
+
         function initializeGroupView() {
             updateGroupView();
         }
@@ -502,7 +510,7 @@
             currentEditPersonId = null;
             const container = document.getElementById('groupPersonFormContainer');
             container.innerHTML = ui.renderGroupPersonForm();
-            
+
             // Event Listener für Disziplin-Auswahl
             setupGroupFormListeners();
         }
@@ -523,7 +531,7 @@
             const select = document.getElementById(selectId);
             const discipline = select.value;
             const inputContainer = document.getElementById(`${selectId}Input`);
-            
+
             if (discipline) {
                 inputContainer.innerHTML = ui.renderPerformanceInput(category, discipline, selectId);
             } else {
@@ -535,7 +543,7 @@
             const name = document.getElementById('groupPersonName').value.trim();
             const birthYear = parseInt(document.getElementById('groupPersonBirthYear').value);
             const testYear = parseInt(document.getElementById('groupTestYear').value);
-            
+
             if (!name || !birthYear) {
                 alert('Bitte Name und Geburtsjahr eingeben');
                 return;
@@ -563,7 +571,7 @@
 
             // Clear form
             document.getElementById('groupPersonFormContainer').innerHTML = '';
-            
+
             // Update view
             updateGroupView();
             state.saveToLocalStorage();
@@ -577,18 +585,18 @@
         function editGroupPerson(personId) {
             const person = state.groupData.find(p => p.id === personId);
             if (!person) return;
-            
+
             currentEditPersonId = personId;
             const container = document.getElementById('groupPersonFormContainer');
             container.innerHTML = ui.renderGroupPersonForm(person);
-            
+
             setupGroupFormListeners();
-            
+
             // Populate performance inputs
             ['ausdauer', 'kraft', 'koordination'].forEach(cat => {
                 const catTitle = cat.charAt(0).toUpperCase() + cat.slice(1);
                 handleGroupDisciplineChange(cat, `group${catTitle}`);
-                
+
                 const perf = person.performances[cat];
                 if (perf && perf.value !== null) {
                     const disciplineData = calculator.data.leistungstabellen[cat][perf.discipline];
@@ -601,7 +609,7 @@
                     }
                 }
             });
-            
+
             // Scroll to form
             container.scrollIntoView({ behavior: 'smooth' });
         }
@@ -722,7 +730,7 @@
 
         function exportGroupResults() {
             const testYear = parseInt(document.getElementById('groupTestYear').value);
-            
+
             const groupResults = state.groupData.map(person => {
                 const result = calculator.evaluatePerson({
                     ...person,
@@ -736,7 +744,7 @@
             });
 
             const csv = calculator.exportToCSV(groupResults);
-            
+
             // Download
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
@@ -786,7 +794,7 @@
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     const csv = e.target.result;
                     const lines = csv.split('\n').filter(line => line.trim());
@@ -921,4 +929,5 @@
         });
     </script>
 </body>
+
 </html>
