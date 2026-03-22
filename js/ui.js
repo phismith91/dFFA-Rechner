@@ -38,8 +38,12 @@ class dFFAUI {
    */
   renderInfoButton(title, description) {
     return `
-      <button class="info-btn" onclick="showModal('${this.escapeHtml(title)}', '${this.escapeHtml(description)}')">
-        <span class="info-icon">ℹ️</span>
+      <button class="info-btn"
+              data-modal-title="${this.escapeHtml(title)}"
+              data-modal-content="${this.escapeHtml(description)}"
+              aria-label="Info zu ${this.escapeHtml(title)} anzeigen"
+              onclick="showModal(this.dataset.modalTitle, this.dataset.modalContent)">
+        <span class="info-icon" aria-hidden="true">ℹ️</span>
       </button>
     `;
   }
@@ -415,12 +419,12 @@ class dFFAUI {
         
         <div class="form-row">
           <div class="form-group">
-            <label>Name</label>
+            <label for="groupPersonName">Name</label>
             <input type="text" id="groupPersonName" value="${person?.name || ''}" 
                    placeholder="Max Mustermann" />
           </div>
           <div class="form-group">
-            <label>Geburtsjahr</label>
+            <label for="groupPersonBirthYear">Geburtsjahr</label>
             <input type="number" id="groupPersonBirthYear" value="${person?.birthYear || ''}" 
                    min="1950" max="${new Date().getFullYear()}" placeholder="1990" />
           </div>

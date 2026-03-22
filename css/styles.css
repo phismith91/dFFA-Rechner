@@ -825,9 +825,7 @@ footer a:hover {
   .badge-value {
     width: fit-content;
   }
-}
 
-@media (max-width: 1024px) {
   .group-table-container {
     overflow-x: auto;
   }
@@ -836,6 +834,30 @@ footer a:hover {
     table-layout: auto;
     min-width: 1000px;
   }
+}
+
+/* Keyboard focus indicators */
+.nav-tab:focus-visible,
+.btn:focus-visible,
+.calculate-btn:focus-visible {
+  outline: 2px solid var(--fire-red);
+  outline-offset: 2px;
+}
+
+.info-btn:focus-visible {
+  outline: 2px solid var(--fire-red);
+  outline-offset: 2px;
+}
+
+.action-btn:focus-visible {
+  outline: 2px solid var(--fire-red);
+  outline-offset: 2px;
+}
+
+.modal-close:focus-visible {
+  outline: 2px solid var(--fire-red);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 @media (max-width: 768px) {
@@ -974,39 +996,40 @@ footer a:hover {
 
 /* Varianten-Auswahl (dFFA/dJFFA) */
 .variant-selector {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1.5rem;
+  background: var(--gray-50);
+  border: 2px solid var(--fire-red);
   border-radius: 8px;
+  padding: 1.25rem 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .variant-selector label {
-  color: white;
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
+  color: var(--gray-700);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
   display: block;
 }
 
 .variant-select {
   width: 100%;
   padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 2px solid white;
-  border-radius: 6px;
+  font-size: 0.9375rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
   background: white;
-  color: #333;
+  color: var(--gray-900);
+  font-family: 'Work Sans', sans-serif;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .variant-select:hover {
-  border-color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  border-color: var(--gray-400);
 }
 
 .variant-select:focus {
   outline: none;
-  border-color: #ffd700;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+  border-color: var(--fire-red);
+  box-shadow: 0 0 0 3px var(--fire-red-light);
 }

@@ -27,14 +27,14 @@
         </header>
 
         <!-- Navigation -->
-        <nav class="nav-tabs">
-            <button class="nav-tab active" onclick="switchView('requirements')">
+        <nav class="nav-tabs" role="tablist">
+            <button class="nav-tab active" role="tab" aria-selected="true" onclick="switchView('requirements', this)">
                 📋 Anforderungen
             </button>
-            <button class="nav-tab" onclick="switchView('individual')">
+            <button class="nav-tab" role="tab" aria-selected="false" onclick="switchView('individual', this)">
                 🏅 Einzelrechner
             </button>
-            <button class="nav-tab" onclick="switchView('group')">
+            <button class="nav-tab" role="tab" aria-selected="false" onclick="switchView('group', this)">
                 👥 Gruppenabnahme
             </button>
         </nav>
@@ -220,11 +220,11 @@
     </div>
 
     <!-- Info Modal -->
-    <div id="infoModal" class="modal">
+    <div id="infoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle" class="modal-title"></h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <button class="modal-close" onclick="closeModal()" aria-label="Dialog schließen">&times;</button>
             </div>
             <div id="modalContent" class="modal-body"></div>
         </div>
@@ -265,15 +265,19 @@
         });
 
         // View Switching
-        function switchView(viewName) {
+        function switchView(viewName, tabEl) {
             const views = document.querySelectorAll('.view');
             const tabs = document.querySelectorAll('.nav-tab');
 
             views.forEach(view => view.classList.remove('active'));
-            tabs.forEach(tab => tab.classList.remove('active'));
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+            });
 
             document.getElementById(`${viewName}View`).classList.add('active');
-            event.target.classList.add('active');
+            tabEl.classList.add('active');
+            tabEl.setAttribute('aria-selected', 'true');
 
             state.setView(viewName);
         }
