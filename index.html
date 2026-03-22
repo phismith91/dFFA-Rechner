@@ -19,6 +19,9 @@
 </head>
 
 <body>
+    <!-- Skip-Link für Tastatur-Navigation (WCAG 2.4.1) -->
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
     <div class="container">
         <!-- Header -->
         <header>
@@ -39,169 +42,175 @@
             </button>
         </nav>
 
-        <!-- Global Variant Selector -->
-        <div id="globalVariantSelect"></div>
+        <main id="main-content">
 
-        <!-- View 1: Anforderungen -->
-        <div id="requirementsView" class="view active">
+            <!-- Global Variant Selector -->
+            <div id="globalVariantSelect"></div>
+
+            <!-- View 1: Anforderungen -->
+            <div id="requirementsView" class="view active">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">📋</span>
+                        <h2 class="card-title">Leistungsanforderungen</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reqBirthYear">Geburtsjahr</label>
+                            <input type="number" id="reqBirthYear" min="1950" max="2020" placeholder="z.B. 1990"
+                                value="1990">
+                        </div>
+                        <div class="form-group">
+                            <label for="reqTestYear">Jahr der Abnahme</label>
+                            <input type="number" id="reqTestYear" min="2024" max="2030" placeholder="z.B. 2026">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="filterDisciplines" onchange="toggleDisciplineFilter()">
+                            Nur ausgewählte Disziplinen anzeigen
+                        </label>
+                    </div>
+
+                    <div id="disciplineFilters" style="display: none;">
+                        <div class="form-group">
+                            <label>Ausdauer-Disziplinen</label>
+                            <div id="ausdauerFilters"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Kraft-Disziplinen</label>
+                            <div id="kraftFilters"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Koordinations-Disziplinen</label>
+                            <div id="koordinationFilters"></div>
+                        </div>
+                    </div>
+
+                    <button class="calculate-btn" onclick="calculateRequirements()">
+                        Anforderungen anzeigen
+                    </button>
+
+                    <div id="requirementsResults" class="results" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- View 2: Einzelrechner -->
+            <div id="individualView" class="view">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🏅</span>
+                        <h2 class="card-title">Einzelabnahme</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="indivBirthYear">Geburtsjahr</label>
+                            <input type="number" id="indivBirthYear" min="1950" max="2020" placeholder="z.B. 1990">
+                        </div>
+                        <div class="form-group">
+                            <label for="indivTestYear">Jahr der Abnahme</label>
+                            <input type="number" id="indivTestYear" min="2024" max="2030" placeholder="z.B. 2026">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="indivAusdauer">Ausdauer-Disziplin</label>
+                        <div id="indivAusdauerSelect"></div>
+                    </div>
+                    <div id="indivAusdauerInput" class="performance-input-container"></div>
+
+                    <div class="form-group">
+                        <label for="indivKraft">Kraft-Disziplin</label>
+                        <div id="indivKraftSelect"></div>
+                    </div>
+                    <div id="indivKraftInput" class="performance-input-container"></div>
+
+                    <div class="form-group">
+                        <label for="indivKoordination">Koordinations-Disziplin</label>
+                        <div id="indivKoordinationSelect"></div>
+                    </div>
+                    <div id="indivKoordinationInput" class="performance-input-container"></div>
+
+                    <button class="calculate-btn" onclick="calculateIndividual()">
+                        Abzeichen berechnen
+                    </button>
+
+                    <div id="individualResults" class="results" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- View 3: Gruppenabnahme -->
+            <div id="groupView" class="view">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">👥</span>
+                        <h2 class="card-title">Gruppenabnahme</h2>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="groupTestYear">Jahr der Abnahme</label>
+                        <input type="number" id="groupTestYear" min="2024" max="2030" placeholder="z.B. 2026">
+                    </div>
+
+                    <div id="groupPersonFormContainer"></div>
+
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <button class="btn btn-primary" onclick="showAddPersonForm()">
+                            ➕ Person hinzufügen
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('csvFileInput').click()">
+                            📤 CSV importieren
+                        </button>
+                        <input type="file" id="csvFileInput" accept=".csv" style="display: none;"
+                            onchange="importGroupFromCSV(event)">
+                        <button class="btn btn-secondary" onclick="exportGroupResults()" id="exportBtn"
+                            style="display: none;">
+                            📥 Als CSV exportieren
+                        </button>
+                        <button class="btn btn-secondary" onclick="emailGroupResults()" id="emailBtn"
+                            style="display: none;">
+                            ✉️ Per E-Mail versenden
+                        </button>
+                        <button class="btn btn-danger" onclick="clearGroup()" id="clearBtn" style="display: none;">
+                            🗑️ Alle löschen
+                        </button>
+                    </div>
+
+                    <div id="groupStats" style="display: none;"></div>
+                    <div id="groupResults"></div>
+                </div>
+            </div>
+
+            <!-- Info Section -->
             <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">📋</span>
-                    <h2 class="card-title">Leistungsanforderungen</h2>
+                <h3 class="card-title">Über das dFFA</h3>
+                <h3 class="card-title">Über das dFFA</h3>
+                <div class="modal-body">
+                    <p>Das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) ist das sportliche Ehrenzeichen der Feuerwehr als
+                        Auszeichnung für gute und vielseitige körperliche Leistungsfähigkeit.</p>
+                    <br>
+                    <strong>Wichtige Regelungen:</strong><br>
+                    • Aus jeder der drei Disziplingruppen (Ausdauer, Kraft, Koordination) muss eine Übung erfüllt
+                    werden<br>
+                    • Das Abzeichen wird in den Stufen Bronze, Silber und Gold verliehen<br>
+                    • Für Silber und Gold müssen alle drei Disziplinen mindestens in der jeweiligen Stufe erreicht
+                    werden<br>
+                    • Für die Altersklasse ist das Geburtsjahr im Jahr der Abnahme entscheidend<br>
+                    • Die Prüfung muss innerhalb eines Kalenderjahres (1.1. bis 31.12.) abgelegt werden<br>
+                    <br>
+                    <strong>Weitere Informationen:</strong><br>
+                    • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/BROSCHRE2019_AK_1.pdf" target="_blank"
+                        rel="noopener">Offizielle Broschüre zum dFFA</a><br>
+                    • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/Leistungstabellen_dFFA.pdf" target="_blank"
+                        rel="noopener">Leistungstabellen und Anforderungen</a><br>
+                    • <a href="https://dfs-ev.de/test/" target="_blank" rel="noopener">Testseite der DFS</a><br>
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="reqBirthYear">Geburtsjahr</label>
-                        <input type="number" id="reqBirthYear" min="1950" max="2020" placeholder="z.B. 1990"
-                            value="1990">
-                    </div>
-                    <div class="form-group">
-                        <label for="reqTestYear">Jahr der Abnahme</label>
-                        <input type="number" id="reqTestYear" min="2024" max="2030" placeholder="z.B. 2026">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="filterDisciplines" onchange="toggleDisciplineFilter()">
-                        Nur ausgewählte Disziplinen anzeigen
-                    </label>
-                </div>
-
-                <div id="disciplineFilters" style="display: none;">
-                    <div class="form-group">
-                        <label>Ausdauer-Disziplinen</label>
-                        <div id="ausdauerFilters"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Kraft-Disziplinen</label>
-                        <div id="kraftFilters"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Koordinations-Disziplinen</label>
-                        <div id="koordinationFilters"></div>
-                    </div>
-                </div>
-
-                <button class="calculate-btn" onclick="calculateRequirements()">
-                    Anforderungen anzeigen
-                </button>
-
-                <div id="requirementsResults" class="results" style="display: none;"></div>
             </div>
-        </div>
 
-        <!-- View 2: Einzelrechner -->
-        <div id="individualView" class="view">
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">🏅</span>
-                    <h2 class="card-title">Einzelabnahme</h2>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="indivBirthYear">Geburtsjahr</label>
-                        <input type="number" id="indivBirthYear" min="1950" max="2020" placeholder="z.B. 1990">
-                    </div>
-                    <div class="form-group">
-                        <label for="indivTestYear">Jahr der Abnahme</label>
-                        <input type="number" id="indivTestYear" min="2024" max="2030" placeholder="z.B. 2026">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="indivAusdauer">Ausdauer-Disziplin</label>
-                    <div id="indivAusdauerSelect"></div>
-                </div>
-                <div id="indivAusdauerInput" class="performance-input-container"></div>
-
-                <div class="form-group">
-                    <label for="indivKraft">Kraft-Disziplin</label>
-                    <div id="indivKraftSelect"></div>
-                </div>
-                <div id="indivKraftInput" class="performance-input-container"></div>
-
-                <div class="form-group">
-                    <label for="indivKoordination">Koordinations-Disziplin</label>
-                    <div id="indivKoordinationSelect"></div>
-                </div>
-                <div id="indivKoordinationInput" class="performance-input-container"></div>
-
-                <button class="calculate-btn" onclick="calculateIndividual()">
-                    Abzeichen berechnen
-                </button>
-
-                <div id="individualResults" class="results" style="display: none;"></div>
-            </div>
-        </div>
-
-        <!-- View 3: Gruppenabnahme -->
-        <div id="groupView" class="view">
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">👥</span>
-                    <h2 class="card-title">Gruppenabnahme</h2>
-                </div>
-
-                <div class="form-group">
-                    <label for="groupTestYear">Jahr der Abnahme</label>
-                    <input type="number" id="groupTestYear" min="2024" max="2030" placeholder="z.B. 2026">
-                </div>
-
-                <div id="groupPersonFormContainer"></div>
-
-                <div style="margin: 2rem 0; text-align: center;">
-                    <button class="btn btn-primary" onclick="showAddPersonForm()">
-                        ➕ Person hinzufügen
-                    </button>
-                    <button class="btn btn-secondary" onclick="document.getElementById('csvFileInput').click()">
-                        📤 CSV importieren
-                    </button>
-                    <input type="file" id="csvFileInput" accept=".csv" style="display: none;"
-                        onchange="importGroupFromCSV(event)">
-                    <button class="btn btn-secondary" onclick="exportGroupResults()" id="exportBtn"
-                        style="display: none;">
-                        📥 Als CSV exportieren
-                    </button>
-                    <button class="btn btn-secondary" onclick="emailGroupResults()" id="emailBtn"
-                        style="display: none;">
-                        ✉️ Per E-Mail versenden
-                    </button>
-                    <button class="btn btn-danger" onclick="clearGroup()" id="clearBtn" style="display: none;">
-                        🗑️ Alle löschen
-                    </button>
-                </div>
-
-                <div id="groupStats" style="display: none;"></div>
-                <div id="groupResults"></div>
-            </div>
-        </div>
-
-        <!-- Info Section -->
-        <div class="card">
-            <h3 class="card-title">Über das dFFA</h3>
-            <div class="modal-body">
-                <p>Das Deutsche Feuerwehr-Fitnessabzeichen (dFFA) ist das sportliche Ehrenzeichen der Feuerwehr als
-                    Auszeichnung für gute und vielseitige körperliche Leistungsfähigkeit.</p>
-                <br>
-                <strong>Wichtige Regelungen:</strong><br>
-                • Aus jeder der drei Disziplingruppen (Ausdauer, Kraft, Koordination) muss eine Übung erfüllt werden<br>
-                • Das Abzeichen wird in den Stufen Bronze, Silber und Gold verliehen<br>
-                • Für Silber und Gold müssen alle drei Disziplinen mindestens in der jeweiligen Stufe erreicht
-                werden<br>
-                • Für die Altersklasse ist das Geburtsjahr im Jahr der Abnahme entscheidend<br>
-                • Die Prüfung muss innerhalb eines Kalenderjahres (1.1. bis 31.12.) abgelegt werden<br>
-                <br>
-                <strong>Weitere Informationen:</strong><br>
-                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/BROSCHRE2019_AK_1.pdf" target="_blank"
-                    rel="noopener">Offizielle Broschüre zum dFFA</a><br>
-                • <a href="https://dfs-ev.de/wp-content/uploads/2024/05/Leistungstabellen_dFFA.pdf" target="_blank"
-                    rel="noopener">Leistungstabellen und Anforderungen</a><br>
-                • <a href="https://dfs-ev.de/test/" target="_blank" rel="noopener">Testseite der DFS</a><br>
-            </div>
-        </div>
+        </main><!-- /#main-content -->
 
         <!-- Footer -->
         <footer>
@@ -285,10 +294,14 @@
         // Modal Functions
         function showModal(title, content) {
             ui.showModal(title, content);
+            // Focus-Trap: Hauptinhalt deaktivieren (WCAG 2.1.2)
+            document.getElementById('main-content').setAttribute('inert', '');
         }
 
         function closeModal() {
             ui.closeModal();
+            // Focus-Trap aufheben
+            document.getElementById('main-content').removeAttribute('inert');
         }
 
         // Click outside modal to close

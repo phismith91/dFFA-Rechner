@@ -57,7 +57,7 @@ class dFFAUI {
     const modal = document.getElementById('infoModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalContent = document.getElementById('modalContent');
-    
+
     modalTitle.textContent = title;
     modalContent.textContent = content;
     modal.classList.add('show');
@@ -83,7 +83,7 @@ class dFFAUI {
 
     for (const [category, disciplines] of Object.entries(requirements)) {
       const categoryInfo = this.calculator.getCategoryInfo(category);
-      
+
       html += `
         <div class="result-category-section">
           <div class="result-category">
@@ -136,7 +136,7 @@ class dFFAUI {
   renderDisciplineSelect(category, selectedValue = '', id = '') {
     const disciplines = this.calculator.getDisciplines(category);
     const categoryInfo = this.calculator.getCategoryInfo(category);
-    
+
     let html = `
       <select id="${id}" class="discipline-select" onchange="handleDisciplineChange('${category}', '${id}')">
         <option value="">-- ${categoryInfo.name}-Disziplin wählen --</option>
@@ -254,7 +254,7 @@ class dFFAUI {
     // Einzelergebnisse
     for (const [category, detail] of Object.entries(result.details)) {
       const categoryInfo = this.calculator.getCategoryInfo(category);
-      
+
       html += `
         <div class="result-category-section">
           <div class="result-category">
@@ -284,7 +284,7 @@ class dFFAUI {
     if (result.finalBadge) {
       const badgeEmojis = { bronze: '🥉', silver: '🥈', gold: '🥇' };
       const badgeNames = { bronze: 'Bronze', silver: 'Silber', gold: 'Gold' };
-      
+
       html += `
         <div class="final-badge ${result.finalBadge}">
           <span class="final-badge-emoji">${badgeEmojis[result.finalBadge]}</span>
@@ -349,7 +349,7 @@ class dFFAUI {
           <td class="name-cell">${this.escapeHtml(person.name)}</td>
           <td>${person.age}</td>
           <td>${person.ageGroup}</td>
-          
+
           <td class="discipline-cell">${ausdauer.disciplineName || '—'}</td>
           <td class="value-cell">
             ${ausdauer.value ? this.calculator.formatValue(ausdauer.value, ausdauer.einheit) : '—'}
@@ -357,7 +357,7 @@ class dFFAUI {
           <td class="badge-cell">
             ${ausdauer.badge ? `<span class="badge-mini badge-${ausdauer.badge}">${this.capitalizeFirst(ausdauer.badge)}</span>` : '—'}
           </td>
-          
+
           <td class="discipline-cell">${kraft.disciplineName || '—'}</td>
           <td class="value-cell">
             ${kraft.value ? this.calculator.formatValue(kraft.value, kraft.einheit) : '—'}
@@ -365,7 +365,7 @@ class dFFAUI {
           <td class="badge-cell">
             ${kraft.badge ? `<span class="badge-mini badge-${kraft.badge}">${this.capitalizeFirst(kraft.badge)}</span>` : '—'}
           </td>
-          
+
           <td class="discipline-cell">${koordination.disciplineName || '—'}</td>
           <td class="value-cell">
             ${koordination.value ? this.calculator.formatValue(koordination.value, koordination.einheit) : '—'}
@@ -373,7 +373,7 @@ class dFFAUI {
           <td class="badge-cell">
             ${koordination.badge ? `<span class="badge-mini badge-${koordination.badge}">${this.capitalizeFirst(koordination.badge)}</span>` : '—'}
           </td>
-          
+
           <td class="final-badge-cell">
             ${person.finalBadge ? `
               <span class="badge-final badge-${person.finalBadge}">
@@ -381,7 +381,7 @@ class dFFAUI {
               </span>
             ` : '<span class="badge-failed-mini">❌</span>'}
           </td>
-          
+
           <td class="actions-cell">
             <button class="action-btn edit-btn" onclick="editGroupPerson('${person.id}')" title="Bearbeiten">
               ✏️
@@ -416,16 +416,16 @@ class dFFAUI {
     return `
       <div class="group-person-form">
         <h3>${formTitle}</h3>
-        
+
         <div class="form-row">
           <div class="form-group">
             <label for="groupPersonName">Name</label>
-            <input type="text" id="groupPersonName" value="${person?.name || ''}" 
+            <input type="text" id="groupPersonName" value="${person?.name || ''}"
                    placeholder="Max Mustermann" />
           </div>
           <div class="form-group">
             <label for="groupPersonBirthYear">Geburtsjahr</label>
-            <input type="number" id="groupPersonBirthYear" value="${person?.birthYear || ''}" 
+            <input type="number" id="groupPersonBirthYear" value="${person?.birthYear || ''}"
                    min="1950" max="${new Date().getFullYear()}" placeholder="1990" />
           </div>
         </div>
