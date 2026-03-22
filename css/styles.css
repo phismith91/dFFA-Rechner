@@ -804,9 +804,9 @@ input[type="number"] {
   color: var(--gray-700);
 }
 
-.info-para + .info-para,
-.info-para + .info-badge-list,
-.info-badge-list + .info-para {
+.info-para+.info-para,
+.info-para+.info-badge-list,
+.info-badge-list+.info-para {
   margin-top: 1rem;
 }
 
