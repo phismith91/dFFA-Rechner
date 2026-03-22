@@ -1024,15 +1024,14 @@ footer a:hover {
 
 /* Varianten-Auswahl (dFFA/dJFFA) */
 .variant-selector {
-  background: var(--gray-50);
-  border: 2px solid var(--fire-red);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 2rem;
 }
 
 .variant-selector label {
-  color: var(--gray-700);
+  color: white;
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: 0.5rem;

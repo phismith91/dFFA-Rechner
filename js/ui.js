@@ -282,11 +282,13 @@ class dFFAUI {
 
     // Gesamtabzeichen
     if (result.finalBadge) {
-      const badgeEmojis = { bronze: '🥉', silver: '🥈', gold: '🥇' };
-      const badgeNames = { bronze: 'Bronze', silver: 'Silber', gold: 'Gold' };
+      const badgeEmojis = { bronze: '🥉', silver: '🥈', silber: '🥈', gold: '🥇' };
+      const badgeNames = { bronze: 'Bronze', silver: 'Silber', silber: 'Silber', gold: 'Gold' };
+      // Calculator gibt 'silber' zurück, CSS-Klasse heißt 'silver' – normalisieren
+      const badgeCssClass = result.finalBadge === 'silber' ? 'silver' : result.finalBadge;
 
       html += `
-        <div class="final-badge ${result.finalBadge}">
+        <div class="final-badge ${badgeCssClass}">
           <span class="final-badge-emoji">${badgeEmojis[result.finalBadge]}</span>
           <div class="final-badge-title">${badgeNames[result.finalBadge]}-Abzeichen</div>
           <p class="final-badge-subtitle">Deutsches Feuerwehr-Fitnessabzeichen</p>
