@@ -794,9 +794,49 @@ input[type="number"] {
 }
 
 .modal-body {
+  color: var(--gray-700);
+  line-height: 1.7;
+  font-size: 0.9375rem;
+}
+
+.info-para {
+  margin: 0;
+  color: var(--gray-700);
+}
+
+.info-para + .info-para,
+.info-para + .info-badge-list,
+.info-badge-list + .info-para {
+  margin-top: 1rem;
+}
+
+.info-badge-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-badge-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--gray-700);
+}
+
+.info-badge-item .badge-mini {
+  flex-shrink: 0;
+  min-width: 52px;
+  text-align: center;
+}
+
+.info-badge-plain {
+  padding-left: 0.25rem;
   color: var(--gray-600);
-  line-height: 1.6;
-  white-space: pre-line;
+  font-size: 0.875rem;
 }
 
 /* Empty State */

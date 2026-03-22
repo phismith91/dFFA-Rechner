@@ -59,7 +59,7 @@ class dFFAUI {
     const modalContent = document.getElementById('modalContent');
 
     modalTitle.textContent = title;
-    modalContent.textContent = content;
+    modalContent.innerHTML = this.formatModalContent(content);
     modal.classList.add('show');
   }
 
@@ -467,6 +467,40 @@ class dFFAUI {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  /**
+   * Formatiert Plaintext-Beschreibung zu strukturiertem HTML.
+   * Absätze werden an \n\n getrennt; Zeilen mit "Bronze:"/"Silber:"/"Gold:"
+   * werden als farbige Badge-Liste gerendert.
+   * @param {string} text
+   * @returns {string} HTML
+   */
+  formatModalContent(text) {
+    if (!text) return '';
+    return text.split('\n\n').map(para => {
+      const lines = para.split('\n');
+      const hasBadgeLines = lines.some(l => /^(Bronze|Silber|Gold):/i.test(l));
+
+      if (hasBadgeLines) {
+        const items = lines.map(line => {
+          const m = line.match(/^(Bronze|Silber|Gold):\s*(.+)/i);
+          if (m) {
+            const key = m[1].toLowerCase();
+            const cssClass = key === 'silber' ? 'silber' : key;
+            return `<li class="info-badge-item">
+              <span class="badge-mini badge-${cssClass}">${this.escapeHtml(m[1])}</span>
+              <span>${this.escapeHtml(m[2])}</span>
+            </li>`;
+          }
+          return `<li class="info-badge-item info-badge-plain">${this.escapeHtml(line)}</li>`;
+        }).join('');
+        return `<ul class="info-badge-list">${items}</ul>`;
+      }
+
+      const htmlLines = lines.map(l => this.escapeHtml(l)).join('<br>');
+      return `<p class="info-para">${htmlLines}</p>`;
+    }).join('');
   }
 
   /**
