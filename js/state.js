@@ -23,22 +23,22 @@ class dFFAState {
       }
     };
     this.groupData = [];
-    this.listeners = [];
+    this.onChange = null;
   }
 
   /**
-   * Registriert einen Listener für State-Änderungen
+   * Registriert den Listener für State-Änderungen
    * @param {Function} callback - Callback-Funktion
    */
   subscribe(callback) {
-    this.listeners.push(callback);
+    this.onChange = callback;
   }
 
   /**
-   * Benachrichtigt alle Listener über State-Änderungen
+   * Benachrichtigt den Listener über State-Änderungen
    */
   notify() {
-    this.listeners.forEach(callback => callback(this.getState()));
+    if (this.onChange) this.onChange(this.getState());
   }
 
   /**
