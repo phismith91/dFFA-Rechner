@@ -19,6 +19,7 @@ Ein leichtgewichtiges, clientseitiges Web‑Tool zur Berechnung und Auswertung d
 - Anforderungs‑Ansicht: Alle Leistungen nach Altersklasse und Disziplin
 - Einzelrechner: Berechnung des erreichten Abzeichens (Bronze / Silber / Gold)
 - Gruppenabnahme: Mehrere Personen verwalten, Ergebnisse exportieren
+- dFFA (ab 18) und dJFFA (Jugend, 10–17 Jahre) als wählbare Varianten
 - Responsive UI: Mobil‑ und Desktop‑optimiert
 - Barrierefreiheit: Semantisches HTML und a11y‑Hinweise
 
@@ -27,8 +28,8 @@ Ein leichtgewichtiges, clientseitiges Web‑Tool zur Berechnung und Auswertung d
 ## 💻 Schnellstart (lokal)
 1. Repo klonen
 ```bash
-git clone https://github.com/IHR-USERNAME/dffa-rechner.git
-cd dffa-rechner
+git clone https://github.com/phismith91/dFFA-Rechner.git
+cd dFFA-Rechner
 ```
 2. Einfach lokal öffnen (kein Build notwendig):
 ```bash
@@ -87,7 +88,7 @@ Tipp: Wenn du eine eigene Subdomain (z. B. `dffa.example.de`) verwendest, setze 
 - Styles anpassen: `css/styles.css` (CSS‑Variablen im :root)
 
 ### Tests
-- `run-tests.js` enthält eine Test‑Suite zur Validierung der Berechnungen
+- `js/tests.js` enthält die Test‑Suite zur Validierung der Berechnungen, ausführbar per Node (`run-tests.js`) oder im Browser (`test.html`)
 - Bitte Tests ausführen nach Änderungen an `calculator.js` oder `dffa-data.js`
 
 ---
@@ -107,7 +108,7 @@ MIT — siehe `LICENSE`
 ---
 
 ## 📬 Kontakt
-Issues auf GitHub: https://github.com/IHR-USERNAME/dffa-rechner/issues
+Issues auf GitHub: https://github.com/phismith91/dFFA-Rechner/issues
 
 ---
 
