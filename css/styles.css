@@ -22,9 +22,9 @@
   --gray-900: #111827;
 
   /* Badge-Farben */
-  --bronze: #CD7F32;
+  --bronze: #B87333;
   --silver: #C0C0C0;
-  --gold: #FFD700;
+  --gold: #D4AF37;
 
   /* Feedback-Farben */
   --success: #10B981;
@@ -453,9 +453,30 @@ input[type="number"] {
 .badge-bronze,
 .badge-value.badge-bronze,
 .badge-mini.badge-bronze,
+.badge-final.badge-bronze,
+.badge-silver,
+.badge-value.badge-silver,
+.badge-mini.badge-silver,
+.badge-final.badge-silver,
+.badge-silber,
+.badge-value.badge-silber,
+.badge-mini.badge-silber,
+.badge-final.badge-silber,
+.badge-gold,
+.badge-value.badge-gold,
+.badge-mini.badge-gold,
+.badge-final.badge-gold {
+  font-weight: 700 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+}
+
+.badge-bronze,
+.badge-value.badge-bronze,
+.badge-mini.badge-bronze,
 .badge-final.badge-bronze {
-  background: var(--bronze) !important;
+  background: linear-gradient(135deg, #D89355 0%, #B87333 50%, #96602A 100%) !important;
   color: white !important;
+  border: 2px solid #8A5A28 !important;
 }
 
 .badge-silver,
@@ -466,19 +487,18 @@ input[type="number"] {
 .badge-value.badge-silber,
 .badge-mini.badge-silber,
 .badge-final.badge-silber {
-  background: linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 50%, #C0C0C0 100%) !important;
+  background: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 50%, #A8A8A8 100%) !important;
   color: var(--gray-800) !important;
   border: 2px solid var(--gray-400) !important;
-  font-weight: 700 !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
 }
 
 .badge-gold,
 .badge-value.badge-gold,
 .badge-mini.badge-gold,
 .badge-final.badge-gold {
-  background: var(--gold) !important;
-  color: var(--gray-800) !important;
+  background: linear-gradient(135deg, #E9CE73 0%, #D4AF37 50%, #B8942B 100%) !important;
+  color: #4A3800 !important;
+  border: 2px solid #A8842A !important;
 }
 
 .badge-empty {
@@ -509,7 +529,7 @@ input[type="number"] {
 
 .final-badge.bronze {
   border-color: var(--bronze);
-  background: linear-gradient(135deg, rgba(205, 127, 50, 0.05) 0%, rgba(205, 127, 50, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(184, 115, 51, 0.05) 0%, rgba(184, 115, 51, 0.1) 100%);
 }
 
 .final-badge.silver {
@@ -520,7 +540,7 @@ input[type="number"] {
 
 .final-badge.gold {
   border-color: var(--gold);
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(212, 175, 55, 0.1) 100%);
 }
 
 .final-badge.failed {

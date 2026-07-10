@@ -91,6 +91,9 @@ Tipp: Wenn du eine eigene Subdomain (z. B. `dffa.example.de`) verwendest, setze 
 - `js/tests.js` enthält die Test‑Suite zur Validierung der Berechnungen, ausführbar per Node (`run-tests.js`) oder im Browser (`test.html`)
 - Bitte Tests ausführen nach Änderungen an `calculator.js` oder `dffa-data.js`
 
+### Versionsnummer
+- Footer in `index.html` zeigt „Version X.Y | Stand: Monat Jahr“ — bei jedem nennenswerten Release (nicht bei jedem Commit) Versionsnummer und Monat dort von Hand hochzählen
+
 ---
 
 ## 🤝 Mitmachen
