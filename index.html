@@ -32,8 +32,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css?v=5">
 
-    <!-- Analytics -->
-    <script defer src="https://analytics.withphil.de/script.js"
+    <!-- Analytics: async, not defer — must never block DOMContentLoaded/app init if this endpoint is slow or down -->
+    <script async src="https://analytics.withphil.de/script.js"
         data-website-id="8a291d5c-7c98-405c-978b-ed58c27425ae"></script>
 
     <!-- Structured Data -->
