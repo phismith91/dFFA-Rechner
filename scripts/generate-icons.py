@@ -4,6 +4,8 @@ Draws the "F" from plain rectangles instead of rendering text, so the
 output doesn't depend on which fonts happen to be installed on the
 machine running this script.
 """
+import os
+
 from PIL import Image, ImageDraw
 
 FIRE_RED = (220, 38, 38)  # #DC2626, matches --fire-red in css/styles.css
@@ -26,6 +28,7 @@ def make_icon(size):
 
 
 if __name__ == "__main__":
+    os.makedirs("icons", exist_ok=True)
     make_icon(512).save("icons/icon-512.png")
     make_icon(192).save("icons/icon-192.png")
     print("Generated icons/icon-512.png and icons/icon-192.png")
