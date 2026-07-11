@@ -1,3 +1,6 @@
+// When index.html's `css/styles.css?vN` query string is bumped, update the
+// entry below AND bump CACHE_NAME (e.g. 'dffa-cache-v2') in the same commit —
+// otherwise this keeps serving a stale CSS file offline.
 const CACHE_NAME = 'dffa-cache-v1';
 const CORE_ASSETS = [
   '/',
